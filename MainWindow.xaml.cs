@@ -26,6 +26,8 @@ namespace Zoo
             InitializeComponent();
             List<Animal> Zoo = new List<Animal>();
             Zoo.Add(new Monkey("Donkey"));
+
+            this.DataContext = Zoo;
         }
     }
 }

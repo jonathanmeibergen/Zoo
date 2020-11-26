@@ -13,6 +13,9 @@ namespace Zoo.Animals
                                      set => _energy = value; }
 
         public Monkey(string name) : base(name)
-        {}
+        {
+            Energy = 60;
+            _eat = 10;
+        }
     }
 }
