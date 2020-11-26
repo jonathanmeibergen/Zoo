@@ -8,9 +8,7 @@ namespace Zoo.Animals
 {
     public class Elephant : Animal
     {
-        public override string Name { get; }
-        public override int Energy { get; set; }
-        Elephant(string name) : base(name)
+        public Elephant(string name) : base(name)
         {
             _eat = 50;
         }

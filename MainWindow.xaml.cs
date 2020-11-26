@@ -24,10 +24,14 @@ namespace Zoo
         public MainWindow()
         {
             InitializeComponent();
-            List<Animal> Zoo = new List<Animal>();
-            Zoo.Add(new Monkey("Donkey"));
-
-            this.DataContext = Zoo;
+            List<Animal> Zoo = new List<Animal>
+            {
+                new Monkey("Donkey Kong"),
+                new Elephant("Jumbo"),
+                new Lion("Simba")
+            };
+            lsZoo.ItemsSource = Zoo;
+            //this.DataContext = Zoo;
         }
     }
 }
