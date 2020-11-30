@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Zoo.Animals
 {
-    public class Elephant : Animal
+    sealed public class Elephant : Animal
     {
         public Elephant(string name) : base(name)
         {

@@ -7,17 +7,27 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <ListView x:Name="lsZoo">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding AnimalType}"/>
-                        <TextBlock Text="{Binding Name}"/>
-                        <TextBlock Text="{Binding Energy}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+        <Grid.Resources>
+            <Style TargetType="{x:Type ListViewItem}">
+                <Style.Setters>
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                </Style.Setters>
+            </Style>
+        </Grid.Resources>
+        <ListView x:Name="lsZoo" Margin="0,0,0,200">
+            <ListView.View>
+                <GridView x:Name="gvZoo">
+                    <GridViewColumn Header="Type" Width="200" DisplayMemberBinding="{Binding AnimalType}"/>
+                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Energy" Width="50" DisplayMemberBinding="{Binding Energy}"/>
+                </GridView>
+            </ListView.View>
         </ListView>
-
+        <StackPanel Orientation="Horizontal" Height="50" VerticalAlignment="Bottom" x:Name="FeedButtons">
+            <Button Click="FeedAnimals" Tag="Animal" Content="Feed All" HorizontalAlignment="Left" Height="25" Width="100" Margin="12,0"/>
+            <Button Click="FeedAnimals" Tag="Monkey" Content="Feed Monkies" HorizontalAlignment="Left" Height="25" Width="100" Margin="12,0"/>
+            <Button Click="FeedAnimals" Tag="Elephant" Content="Feed Elephants" HorizontalAlignment="Left" Height="25" Width="100" Margin="12,0"/>
+            <Button Click="FeedAnimals" Tag="Lion" Content="Feed Lions" HorizontalAlignment="Left" Height="25" Width="100" Margin="12,0"/>
+        </StackPanel>
     </Grid>
 </Window>

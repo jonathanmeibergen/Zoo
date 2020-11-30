@@ -12,8 +12,9 @@ namespace Zoo.Animals
         protected int _energy = 100;
         protected int _eat = 25;
         public string Name { get => _name; }
-        public int Energy { get => _energy; set => _energy = value; }
-        public string AnimalType => this.GetType().Name;
+        public virtual int Energy { get => _energy; set => _energy = value; }
+        public virtual string AnimalType => this.GetType().Name;
+        public virtual string AnimalTypePlural { get; }
         public Animal(string name)
         {
             _name = name; 
