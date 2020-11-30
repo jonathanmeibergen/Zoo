@@ -67,6 +67,7 @@ namespace Zoo
             Zoo.ToList().ForEach(a => a.Key.UseEnergy());
             Zoo.ToList().ForEach(a => { if(!a.Key.Alive) { Zoo.Remove(a.Key); } });
             lsZoo.ItemsSource = null;
+            
             lsZoo.ItemsSource = Zoo.Keys.ToList();
         }
 
@@ -80,7 +81,7 @@ namespace Zoo
             ZooKeeper[type]();
 
             lsZoo.ItemsSource = null;
-            lsZoo.ItemsSource = Zoo;
+            lsZoo.ItemsSource = Zoo.Keys.ToList();
 
         }
     }
