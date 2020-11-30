@@ -36,14 +36,15 @@ namespace Zoo
                 { new Elephant("Jumbo"), "Elephant" },
                 { new Lion("Simba"), "Lion" }
             };
-            lsZoo.ItemsSource = Zoo;
+            lsZoo.ItemsSource = Zoo.Keys.ToList();
             //this.DataContext = Zoo;
 
             ZooKeeper = new Dictionary<Type, Action> {
-                { typeof(Monkey), () => Zoo.All(a => a.Key is Monkey).ForEach(m => m.Eat()) },
-                { typeof(Elephant), () => Zoo.FindAll(a => a is Elephant).ForEach(e => e.Eat()) },
-                { typeof(Lion), () => Zoo.FindAll(a => a is Lion).ForEach(l => l.Eat())},
-                { typeof(Animal), () => Zoo.ForEach(a => a.Eat())},
+                { typeof(Monkey), () => Zoo.ToList().FindAll(a => a.Key is Monkey).ForEach(m => m.Key.Eat()) },
+                { typeof(Elephant), () => Zoo.ToList().FindAll(a => a.Key is Elephant).ForEach(m => m.Key.Eat()) },
+                { typeof(Lion), () => Zoo.ToList().FindAll(a => a.Key is Lion).ForEach(m => m.Key.Eat()) },
+                //{ typeof(Lion), () => Zoo.FindAll(a => a is Lion).ForEach(l => l.Eat())},
+                { typeof(Animal), () => Zoo.ToList().ForEach(a => a.Key.Eat()) }
             };
             
             DispatcherTimer timer = new DispatcherTimer();
@@ -63,14 +64,10 @@ namespace Zoo
         }
         private void timer_Tick(object sender, EventArgs e)
         {
-            Zoo.ForEach(a => a.UseEnergy());
-            for (int i = 0; i < Zoo.Count; i++)
-            {
-                Zoo.
-            }
-
+            Zoo.ToList().ForEach(a => a.Key.UseEnergy());
+            Zoo.ToList().ForEach(a => { if(!a.Key.Alive) { Zoo.Remove(a.Key); } });
             lsZoo.ItemsSource = null;
-            lsZoo.ItemsSource = Zoo;
+            lsZoo.ItemsSource = Zoo.Keys.ToList();
         }
 
         public void FeedAnimals(object sender, RoutedEventArgs e)

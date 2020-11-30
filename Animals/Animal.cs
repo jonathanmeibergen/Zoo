@@ -16,7 +16,7 @@ namespace Zoo.Animals
         public string Name { get => _name; }
         public virtual int Energy { get => _energy; set => _energy = value; }
 
-        public bool Alive { get; private set; }
+        public bool Alive { get => _alive; }
         public virtual string AnimalType => this.GetType().Name;
 
         public Animal(string name)
@@ -35,7 +35,7 @@ namespace Zoo.Animals
 
         public void Die()
         {
-            Alive = false;
+            _alive = false;
         }
 
     }
