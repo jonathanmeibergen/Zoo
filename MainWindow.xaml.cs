@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Zoo.Animals;
 
 namespace Zoo
@@ -22,19 +23,54 @@ namespace Zoo
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<Animal> Zoo { get; set; }
+        private Dictionary<Animal, string> Zoo { get; set; }
+
+        private Dictionary<Type, Action> ZooKeeper;
 
         public MainWindow()
         {
             InitializeComponent();
-            Zoo = new List<Animal>
+            Zoo = new Dictionary<Animal, string>
             {
-                new Monkey("Donkey Kong"),
-                new Elephant("Jumbo"),
-                new Lion("Simba")
+                { new Monkey("Donkey Kong"), "Monkey" },
+                { new Elephant("Jumbo"), "Elephant" },
+                { new Lion("Simba"), "Lion" }
             };
             lsZoo.ItemsSource = Zoo;
             //this.DataContext = Zoo;
+
+            ZooKeeper = new Dictionary<Type, Action> {
+                { typeof(Monkey), () => Zoo.All(a => a.Key is Monkey).ForEach(m => m.Eat()) },
+                { typeof(Elephant), () => Zoo.FindAll(a => a is Elephant).ForEach(e => e.Eat()) },
+                { typeof(Lion), () => Zoo.FindAll(a => a is Lion).ForEach(l => l.Eat())},
+                { typeof(Animal), () => Zoo.ForEach(a => a.Eat())},
+            };
+            
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
+        }
+
+        //private List<Animal> FindAnimals(Type type)
+        //{
+        //    return Zoo.FindAll(a => CompareTypes(a.GetType(), type)).ForEach(a => a.Eat());
+        //}
+
+        private bool CompareTypes<T1, T2>(T1 a, T2 b)
+        {
+            return a.GetType() == b.GetType();
+        }
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            Zoo.ForEach(a => a.UseEnergy());
+            for (int i = 0; i < Zoo.Count; i++)
+            {
+                Zoo.
+            }
+
+            lsZoo.ItemsSource = null;
+            lsZoo.ItemsSource = Zoo;
         }
 
         public void FeedAnimals(object sender, RoutedEventArgs e)
@@ -44,41 +80,11 @@ namespace Zoo
             Assembly asm = Assembly.Load("Zoo");
             Type type = asm.GetType($"Zoo.Animals.{btnClicked}");
 
-            var _switch = new Dictionary<Type, Action> {
-                { typeof(Monkey), () => Zoo.FindAll(a => a is Monkey).ForEach(m => m.Eat()) },
-                { typeof(Elephant), () => Zoo.FindAll(a => a is Elephant).ForEach(e => e.Eat()) },
-                { typeof(Lion), () => Zoo.FindAll(a => a is Lion).ForEach(l => l.Eat())},
-                { typeof(Animal), () => Zoo.ForEach(a => a.Eat())},
-            };
-
-            _switch[type]();
+            ZooKeeper[type]();
 
             lsZoo.ItemsSource = null;
             lsZoo.ItemsSource = Zoo;
 
-            //var aa = gvZoo.
-                //.ToList().ForEach(x => { 
-                //TextBox dp = x.CellTemplate.LoadContent() as TextBox; 
-                //                                  dp.GetBindingExpression(TextBox.TextProperty).UpdateTarget(); });
-
-            //List<Animal> animals;
-            //switch (btn)
-            //{
-            //    case Monkey t1:
-            //        animals = Zoo.FindAll(a => a is Monkey);
-            //        animals.ForEach(a => a.Eat());
-            //        break;
-            //    case "Elephants":
-            //        animals = Zoo.FindAll(a => a.AnimalType == typeof(Monkey).Name);
-            //        animals.ForEach(a => a.Eat());
-            //        break;
-            //    case "Lions":
-            //        animals = Zoo.FindAll(a => a.AnimalType == typeof(Monkey).Name);
-            //        animals.ForEach(a => a.Eat());
-            //        break;
-            //    default:
-            //        break;
-            //}
         }
     }
 }

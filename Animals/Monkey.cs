@@ -12,6 +12,7 @@ namespace Zoo.Animals
         {
             Energy = 60;
             _eat = 10;
+            _consume = 2;
         }
     }
 }

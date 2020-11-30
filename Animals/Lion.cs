@@ -11,6 +11,7 @@ namespace Zoo.Animals
         public Lion(string name) : base (name)
         {
             _eat = 25;
+            _consume = 10;
         }
     }
 }
