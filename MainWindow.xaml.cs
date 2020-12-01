@@ -23,28 +23,29 @@ namespace Zoo
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Dictionary<Animal, string> Zoo { get; set; }
+        //private Dictionary<Animal, string> Zoo { get; set; }
+        private List<Animal> Zoo { get; set; }
 
         private Dictionary<Type, Action> ZooKeeper;
 
         public MainWindow()
         {
             InitializeComponent();
-            Zoo = new Dictionary<Animal, string>
+            Zoo = new List<Animal>
             {
-                { new Monkey("Donkey Kong"), "Monkey" },
-                { new Elephant("Jumbo"), "Elephant" },
-                { new Lion("Simba"), "Lion" }
+                new Monkey("Donkey Kong"),
+                new Elephant("Jumbo"),
+                new Lion("Simba")
             };
-            lsZoo.ItemsSource = Zoo.Keys.ToList();
+            lsZoo.ItemsSource = Zoo;
             //this.DataContext = Zoo;
 
             ZooKeeper = new Dictionary<Type, Action> {
-                { typeof(Monkey), () => Zoo.ToList().FindAll(a => a.Key is Monkey).ForEach(m => m.Key.Eat()) },
-                { typeof(Elephant), () => Zoo.ToList().FindAll(a => a.Key is Elephant).ForEach(m => m.Key.Eat()) },
-                { typeof(Lion), () => Zoo.ToList().FindAll(a => a.Key is Lion).ForEach(m => m.Key.Eat()) },
-                //{ typeof(Lion), () => Zoo.FindAll(a => a is Lion).ForEach(l => l.Eat())},
-                { typeof(Animal), () => Zoo.ToList().ForEach(a => a.Key.Eat()) }
+                //{ typeof(Elephant), () => Zoo.ToList().FindAll(a => a.Key is Elephant).ForEach(m => m.Key.Eat()) },
+                { typeof(Monkey), () => Zoo.FindAll(a => a is Monkey).ForEach(m => m.Eat()) },
+                { typeof(Elephant), () => Zoo.FindAll(a => a is Elephant).ForEach(m => m.Eat()) },
+                { typeof(Lion), () => Zoo.FindAll(a => a is Lion).ForEach(l => l.Eat())},
+                { typeof(Animal), () => Zoo.ToList().ForEach(a => a.Eat()) }
             };
             
             DispatcherTimer timer = new DispatcherTimer();
@@ -58,17 +59,16 @@ namespace Zoo
         //    return Zoo.FindAll(a => CompareTypes(a.GetType(), type)).ForEach(a => a.Eat());
         //}
 
-        private bool CompareTypes<T1, T2>(T1 a, T2 b)
-        {
-            return a.GetType() == b.GetType();
-        }
+        //private bool CompareTypes<T1, T2>(T1 a, T2 b)
+        //{
+        //    return a.GetType() == b.GetType();
+        //}
         private void timer_Tick(object sender, EventArgs e)
         {
-            Zoo.ToList().ForEach(a => a.Key.UseEnergy());
-            Zoo.ToList().ForEach(a => { if(!a.Key.Alive) { Zoo.Remove(a.Key); } });
+            Zoo.ToList().ForEach(a => a.UseEnergy());
+            Zoo.ToList().ForEach(a => { if(!a.Alive) { Zoo.Remove(a); } });
             lsZoo.ItemsSource = null;
-            
-            lsZoo.ItemsSource = Zoo.Keys.ToList();
+            lsZoo.ItemsSource = Zoo;
         }
 
         public void FeedAnimals(object sender, RoutedEventArgs e)
@@ -81,7 +81,8 @@ namespace Zoo
             ZooKeeper[type]();
 
             lsZoo.ItemsSource = null;
-            lsZoo.ItemsSource = Zoo.Keys.ToList();
+            lsZoo.ItemsSource = Zoo;
+            //lsZoo.ItemsSource = Zoo.Keys.ToList();
 
         }
     }
