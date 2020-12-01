@@ -50,7 +50,7 @@ namespace Zoo
             };
             
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Interval = TimeSpan.FromSeconds(2);
             timer.Tick += timer_Tick;
             timer.Start();
         }
