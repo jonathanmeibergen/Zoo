@@ -23,11 +23,20 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Orientation="Horizontal" Height="50" VerticalAlignment="Bottom" x:Name="FeedButtons">
+        <StackPanel Height="110" VerticalAlignment="Bottom" x:Name="Buttons">
+        <StackPanel Orientation="Horizontal" Height="50" x:Name="CreateControls">
+            <Button Click="CreateAnimal" Visibility="Collapsed" Tag="Breed Animal" Content="Feed All" HorizontalAlignment="Left" Height="25" Width="100" Margin="12,0"/>
+                <TextBox GotFocus="NewAnimalName_GotFocus" x:Name="NewAnimalName" Width="100" Height="25" Margin="12,0" MaxLines="1" MaxLength="32" Text="Name"/>
+                <Button Click="CreateAnimal" Tag="Monkey" Content="Breed Monkey" HorizontalAlignment="Left" Height="25" Width="100" Margin="12,0"/>
+            <Button Click="CreateAnimal" Tag="Elephant" Content="Breed Elephant" HorizontalAlignment="Left" Height="25" Width="100" Margin="12,0"/>
+            <Button Click="CreateAnimal" Tag="Lion" Content="Breed Lion" HorizontalAlignment="Left" Height="25" Width="100" Margin="12,0"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Height="50" x:Name="FeedButtons">
             <Button Click="FeedAnimals" Tag="Animal" Content="Feed All" HorizontalAlignment="Left" Height="25" Width="100" Margin="12,0"/>
             <Button Click="FeedAnimals" Tag="Monkey" Content="Feed Monkies" HorizontalAlignment="Left" Height="25" Width="100" Margin="12,0"/>
             <Button Click="FeedAnimals" Tag="Elephant" Content="Feed Elephants" HorizontalAlignment="Left" Height="25" Width="100" Margin="12,0"/>
             <Button Click="FeedAnimals" Tag="Lion" Content="Feed Lions" HorizontalAlignment="Left" Height="25" Width="100" Margin="12,0"/>
+        </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

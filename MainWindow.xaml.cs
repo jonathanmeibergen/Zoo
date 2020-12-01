@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -65,7 +66,8 @@ namespace Zoo
         //}
         private void timer_Tick(object sender, EventArgs e)
         {
-            Zoo.ToList().ForEach(a => a.UseEnergy());
+            Zoo.ForEach(a => a.UseEnergy());
+            //tolist creates a copy so the original can be edited while iterating
             Zoo.ToList().ForEach(a => { if(!a.Alive) { Zoo.Remove(a); } });
             lsZoo.ItemsSource = null;
             lsZoo.ItemsSource = Zoo;
@@ -84,6 +86,42 @@ namespace Zoo
             lsZoo.ItemsSource = Zoo;
             //lsZoo.ItemsSource = Zoo.Keys.ToList();
 
+        }
+
+        public void CreateAnimal(object sender, RoutedEventArgs e)
+        {
+
+            Button btn = sender as Button;
+            string btnClicked = btn.Tag.ToString();
+            Assembly asm = Assembly.Load("Zoo");
+            Type type = asm.GetType($"Zoo.Animals.{btnClicked}");
+
+            if (NewAnimalName.Text != String.Empty)
+            {
+                Animal animal = Activator.CreateInstance(type, NewAnimalName.Text) as Animal;
+                Zoo.Add(animal);
+            } else
+            {
+                // Configure the message box to be displayed
+                string messageBoxText = "You must fill in a name for the new Animal";
+                string caption = "Breed Animal";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Exclamation;
+
+                MessageBox.Show(messageBoxText, caption, button, icon);
+            }
+
+            lsZoo.ItemsSource = null;
+            lsZoo.ItemsSource = Zoo;
+            //lsZoo.ItemsSource = Zoo.Keys.ToList();
+
+        }
+
+        private void NewAnimalName_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if(tb.Text.Contains("Name"))
+                tb.Text = String.Empty;
         }
     }
 }
