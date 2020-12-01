@@ -96,7 +96,7 @@ namespace Zoo
             Assembly asm = Assembly.Load("Zoo");
             Type type = asm.GetType($"Zoo.Animals.{btnClicked}");
 
-            if (NewAnimalName.Text != String.Empty)
+            if (NewAnimalName.Text != String.Empty && NewAnimalName.Text != "Name")
             {
                 Animal animal = Activator.CreateInstance(type, NewAnimalName.Text) as Animal;
                 Zoo.Add(animal);
@@ -122,6 +122,13 @@ namespace Zoo
             TextBox tb = sender as TextBox;
             if(tb.Text.Contains("Name"))
                 tb.Text = String.Empty;
+        }
+
+        private void NewAnimalName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if (tb.Text == String.Empty)
+                tb.Text = "Name";
         }
     }
 }
